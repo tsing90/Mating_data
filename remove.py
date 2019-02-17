@@ -5,13 +5,23 @@ import time
 driver = webdriver.Chrome("C:\chromedriver.exe")
 
 driver.get("https://www.remove.bg/")
-driver.find_element_by_link_text("Select a photo").click()
 
-time.sleep(1)
-# 这里可以对传参进行参数化
-os.system(r'D:\Research_Imperial\GitHub\matting_data\upload.exe "D:\Research_Imperial\GitHub\matting_data\test.jpg"')
-time.sleep(5)
+all_cookies = driver.get_cookies()
+with open('cookies.txt','w') as f:
+    f.write(str(all_cookies))
+print (all_cookies)
+
+#driver.add_cookie({})
+#driver.find_element_by_link_text("Select a photo").click()
+
+#time.sleep(1)
+
+#os.system(r'D:\Research_Imperial\GitHub\matting_data\upload.exe "D:\Research_Imperial\GitHub\matting_data\test.jpg"')
+#time.sleep(5)
 driver.quit()
+
+
+
 
 
 
