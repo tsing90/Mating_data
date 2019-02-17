@@ -1,7 +1,27 @@
 
+from selenium import webdriver
+import os
+import time
+driver = webdriver.Chrome("C:\chromedriver.exe")
+
+driver.get("https://www.remove.bg/")
+driver.find_element_by_link_text("Select a photo").click()
+
+time.sleep(1)
+# 这里可以对传参进行参数化
+os.system(r'D:\Research_Imperial\GitHub\matting_data\upload.exe "D:\Research_Imperial\GitHub\matting_data\test.jpg"')
+time.sleep(5)
+driver.quit()
+
+
+
+""" using win32gui / focus switch
+
 import os, time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import win32gui
+import win32con
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")       # define headless
@@ -11,7 +31,13 @@ driver = webdriver.Chrome()
 
 driver.get("https://www.remove.bg/")
 driver.find_element_by_link_text("Select a photo").click()
-time.sleep(1)
+try:
+    element = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "myDynamicElement"))
+    )
+finally:
+    print('no pop-up window after 10s, exit!')
+    driver.quit()
 driver.find_element_by_name("image[original]").clear()
 driver.find_element_by_name("image[original]").send_keys("/home/kevin/git/matting_data/dili.png")
 driver.find_element_by_link_text("Download").click()
@@ -19,11 +45,9 @@ driver.find_element_by_link_text("Download").click()
 driver.close()
 
 
-
-
-
 """
 
+"""
 import requests
 
 
@@ -46,7 +70,7 @@ print(r.content)
 
 
 
-"""
+"""  spider
 import urllib2
 import os
 import scrapy
