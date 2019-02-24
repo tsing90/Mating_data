@@ -1,15 +1,17 @@
 
 import os
 
-imgDir = 'ds13/img'
-maskDir = 'ds13/masks_machine'
-txtDir = 'ds13/bad_img.txt'
-with open(txtDir,'r') as f:
-    for name in f.readlines():
-        try:
-            os.remove(imgDir+'/'+name.strip())
-        except FileNotFoundError:
-            os.remove(imgDir+'/'+name.strip()[:-4]+'.jpg')
-        os.remove(maskDir+'/'+name.strip())
+root = '/media/kevin/Data/Ubuntu/bgimg_ait/'
+imgList = []
 
-print('all cleaned')
+i=0
+for path, subdir, files in os.walk(root):
+    for name in files:
+        imgList.append(os.path.join(root,path,name))
+        i+=1
+print('total count:',i)
+imgList.sort()
+with open('bg_list.txt','w') as f:
+    for name in imgList[:-1]:
+        f.write(name+'\n')
+    f.write(imgList[-1])

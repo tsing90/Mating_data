@@ -2,29 +2,44 @@
 import cv2, os
 import numpy as np
 
-maskDir = 'ds13/masks_machine'
-txtDir = 'ds13/bad_img.txt'
-imgList = sorted(os.listdir(maskDir))
+dir = '/media/kevin/Data/Ubuntu/bgimg_ait/'
+extList = ['.jpg', '.JPG', '.jpeg', '.JPEG','.png', '.PNG', '.gif','.GIF',
+           '.ppm', '.PPM', '.bmp', '.BMP', '.tiff']
 
-bad = []
+i = 0
+for path, subdir, files in os.walk(dir):
+    for name in files:
+        pre, ext = os.path.splitext(name)
+        assert ext in extList
+        newname = 'ait_{:05d}'.format(i)+ext
+        if os.path.isfile(os.path.join(dir,path,newname)):
+            print(name, newname)
+            raise ValueError
+        os.rename(os.path.join(dir, path, name),
+                  os.path.join(dir, path, newname))
+        i+=1
+print('count:',i)
+
+"""
+imgList = os.listdir(dir)
+assert imgList!=[]
+
+extList = ['.jpg', '.JPG', '.jpeg', '.JPEG','.png', '.PNG', '.gif','.GIF',
+           '.ppm', '.PPM', '.bmp', '.BMP', '.tiff']
+i=0
 for name in imgList:
-    img = cv2.imread(maskDir+'/'+name, 0)
-    assert img is not None
-    h, w = img.shape
-    mask_cord = np.where(img>0)  # 2d array [[h_cord],[x_cord]]
-    h_max, h_min = np.max(mask_cord[0]), np.min(mask_cord[0])
-    if h>=w and (h_max - h_min)/h < 0.6:
-        #print(name)
-        bad.append(name)
-    elif h<w and (h_max - h_min)/h < 0.45:
-        #print(name)
-        bad.append(name)
+    prename, ext = os.path.splitext(name)
+    
+    if ext !='.png' and ext in extList:
+        if os.path.isfile(dir+prename+'.png'):
+            #os.remove(dir+name)
+            print('replicated file:',name)
+        else:
+            os.rename(dir+name, dir+prename+'.png')
+            i+=1
+    
+    if ext not in extList:
+        print('invalid file:', name)
 
-if bad != []:
-    with open(txtDir,'w') as f:
-        for name in bad[:-1]:
-            f.write(name+'\n')
-        f.write(bad[-1])
-    print('\n',len(bad),'bad images detected!')
-else:
-    print('no bad image detected!')
+#print('ext changed: ',i)
+"""
