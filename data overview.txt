@@ -1,22 +1,22 @@
 training data:
-DIM: 215    x10 + bg
-Supervisely: 4894   x1
-matting_ait: 4798   x5 + bg
+DIM: 215    x100 + bg
+Supervisely: 4879   x1
+matting_ait: 4775   x5 + bg
 
---> total: 50384
+--> total: 50254
 
 
 testing data:
 DIM: 11
 
 bg data:
-coco_bg: 24234 (18386 in use)
+coco_bg: 24234 (18275 in use)
 baidu:	1455
 pexels: 4488
-taobao: 21161
+taobao: 21157
 
 --> total: 51338
---> in use: 45490  (deduct 5848 from coco)
+--> in use: 45375  (deduct 5959 from coco)
 
 
 
